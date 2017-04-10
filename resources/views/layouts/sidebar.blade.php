@@ -24,17 +24,18 @@
             <li  class="treeview {{ active_class(if_route_pattern(['permission.*','role.*','user.*'])) }}">
                 <a href="#"><span>系统设置</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li class="{{ active_class(if_route_pattern('permission.*')) }}"><a href="{{route('permission.index')}}">系统模块</a></li>
-                    <li class="{{ active_class(if_route_pattern('role.*')) }}"><a href="{{route('role.index')}}">系统角色</a></li>
-                    <li class="{{ active_class(if_route_pattern('user.*')) }}"><a href="{{route('user.index')}}">系统用户</a></li>
+                    {{--<li class="{{ active_class(if_route_pattern('permission.*')) }}"><a href="{{route('permission.index')}}">系统模块</a></li>--}}
+                    {{--<li class="{{ active_class(if_route_pattern('role.*')) }}"><a href="{{route('role.index')}}">系统角色</a></li>--}}
+                    <li class="{{ active_class(if_route_pattern('user.*')) }}"><a href="{{route('user.index')}}">用户管理</a></li>
                 </ul>
             </li>
-            <li  class="treeview {{ active_class(if_route_pattern(['permission.*','role.*','user.*'])) }}">
-                <a href="#"><span>应用</span> <i class="fa fa-angle-left pull-right"></i></a>
+            <li  class="treeview {{ active_class(if_route_pattern(['category.*','materialin.*','materialout.*','storage.*'])) }}">
+                <a href="#"><span>物料管理</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li class="{{ active_class(if_route_pattern('permission.*')) }}"><a href="{{route('permission.index')}}">应用1</a></li>
-                    <li class="{{ active_class(if_route_pattern('role.*')) }}"><a href="{{route('role.index')}}">应用2</a></li>
-                    <li class="{{ active_class(if_route_pattern('user.*')) }}"><a href="{{route('user.index')}}">应用3</a></li>
+                    <li class="{{ active_class(if_route_pattern('category.*')) }}"><a href="{{route('category.index')}}">类别管理</a></li>
+                    <li class="{{ active_class(if_route_pattern('materialin.*')) }}"><a href="{{route('materialin.index')}}">物料入库</a></li>
+                    <li class="{{ active_class(if_route_pattern('materialout.*')) }}"><a href="{{route('materialout.index')}}">物料出库</a></li>
+                    <li class="{{ active_class(if_route_pattern('storage.*')) }}"><a href="{{route('storage.index')}}">库存列表</a></li>
                 </ul>
             </li>
         </ul><!-- /.sidebar-menu -->

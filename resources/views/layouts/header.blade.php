@@ -2,7 +2,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="javascript:;" class="logo"><b>DF</b>CMS</a>
+    <a href="javascript:;" class="logo"><b>华能</b>物资管理系统</a>
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">

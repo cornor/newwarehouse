@@ -41,6 +41,22 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin','middleware'=>'auth'], 
 });
 
 
+//Route::get('category/index','CategoryController@index')->name('category.index');
+Route::get('category/delete/{id}','CategoryController@destroy')->name('category.destroy');
+//Route::get('category/create','CategoryController@create')->name('category.create');
+Route::resource('category','CategoryController');
+
+
+Route::get('materialin/index','MaterialInController@index')->name('materialin.index');
+Route::get('materialin/create','MaterialInController@create')->name('materialin.create');
+Route::post('materialin/store','MaterialInController@store')->name('materialin.store');
+
+Route::get('materialout/index','MaterialOutController@index')->name('materialout.index');
+Route::get('materialout/create','MaterialOutController@create')->name('materialout.create');
+Route::post('materialout/store','MaterialOutController@store')->name('materialout.store');
+
+Route::get('storage/index','StorageController@index')->name('storage.index');
+
 Auth::routes();
 
 

@@ -10,7 +10,7 @@
                     <h3 class="box-title">操作</h3>
                 </div>
                 <div class="box-body">
-                    <a href="{{route('user.create')}}" class="btn btn-primary">新建用户</a>
+                    <a href="{{route('user.create')}}" class="btn btn-lg btn-primary">新建用户</a>
                 </div>
             </div><!-- /.box -->
         </div><!-- /.col -->
@@ -50,7 +50,7 @@
                                     {!! Form::open(['route' => ['user.destroy','id'=>$user->id],'id'=>'delete-form','method' => 'delete','style'=>'display:none']) !!}
                                     {!! Form::close() !!}
                                     <a class="btn btn-xs" href="{{url('admin/user/'.$user->id.'/edit')}}">修改</a>
-                                    <a class="btn btn-xs" href="{{url('admin/user/role/'.$user->id)}}">添加角色</a>
+                                    {{--<a class="btn btn-xs" href="{{url('admin/user/role/'.$user->id)}}">添加角色</a>--}}
                                     <a class="btn btn-xs" href="{{url('admin/user/'.$user->id.'/avatar')}}">添加照片</a>
                                 </td>
                             </tr>
