@@ -52,8 +52,9 @@ Route::get('materialin/create','MaterialInController@create')->name('materialin.
 Route::post('materialin/store','MaterialInController@store')->name('materialin.store');
 
 Route::get('materialout/index','MaterialOutController@index')->name('materialout.index');
-Route::get('materialout/create','MaterialOutController@create')->name('materialout.create');
+Route::get('materialout/create/{id}','MaterialOutController@create')->name('materialout.create');
 Route::post('materialout/store','MaterialOutController@store')->name('materialout.store');
+Route::get('materialout/storage','MaterialOutController@storage')->name('materialout.storage');
 
 Route::get('storage/index','StorageController@index')->name('storage.index');
 

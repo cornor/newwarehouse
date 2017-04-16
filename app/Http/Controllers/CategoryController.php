@@ -23,7 +23,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categorys = Category::all();
-        $data = array('page_title' => '类别管理', 'page_description' => '增加，修改类别',
+        $data = array('page_title' => '类别列表', 'page_description' => '',
             'categorys' => $categorys);
         return view('category.list', $data);
     }

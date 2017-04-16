@@ -5,9 +5,6 @@
         <div class='col-md-8'>
             <!-- Box -->
             <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">增加类别</h3>
-                </div>
                 {!! Form::open(['route' => 'category.store']) !!}
                 <div class="box-body">
                     @include('errors.submitError')

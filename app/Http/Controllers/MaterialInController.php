@@ -24,13 +24,20 @@ class MaterialInController extends Controller
      */
     public function index(Request $request)
     {
-        $indatas = MaterialIn::all();
+        $query = $request->input('q', '');
+        $query = trim($query);
+        if (strlen($query) > 0) {
+            $query = urldecode($query);
+            $indatas = MaterialIn::where('material_name', 'like', '%'.$query.'%')->take(100)->get()->sortByDesc('in_time');
+        } else {
+            $indatas = MaterialIn::all()->sortByDesc('in_time')->take(100);
+        }
         $categorys = CategoryLogic::getCategorys();
         foreach ($indatas as $indata) {
             $indata->category_name = isset($categorys[$indata->category_id]) ? $categorys[$indata->category_id]->name : '';
         }
-        $data = array('page_title' => '入库管理', 'page_description' => '增加，搜索入库记录',
-            'indatas' => $indatas);
+        $data = array('page_title' => '入库记录', 'page_description' => '增加，搜索入库记录',
+            'indatas' => $indatas, 'query' => $query);
         return view('materialin.list', $data);
     }
 

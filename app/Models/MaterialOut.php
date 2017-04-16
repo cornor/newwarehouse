@@ -10,6 +10,6 @@ class MaterialOut extends Model {
     public $incrementing = false;
 
     protected $fillable = [
-        'xinghao', 'material_name','out_num', 'out_time','category_id','check_user','remark','guige'
+        'xinghao', 'material_name','out_num', 'out_time','category_id','check_user','remark'
     ];
 }

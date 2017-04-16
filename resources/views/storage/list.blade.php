@@ -4,12 +4,15 @@
     @include('admin.messages')
     <div class="row">
         <div class="col-lg-6" style="float: right;">
+            {!! Form::open(['route' => 'storage.index', 'method' => 'GET']) !!}
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="输入材料...">
+                <input type="text" class="form-control" value="{{$query}}" name="q" placeholder="输入材料...">
                 <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button">搜索</button>
+                    {{--<button class="btn btn-primary" type="button">搜索</button>--}}
+                    {{ Form::bsButton('submit','btn btn-primary','搜索') }}
                 </span>
             </div>
+            {!! Form::close() !!}
         </div>
     </div>
     <p/>
@@ -27,7 +30,6 @@
                             <th>型号</th>
                             <th>名称</th>
                             <th>类别</th>
-                            <th>规格</th>
                             <th>初始库存</th>
                             <th>实际库存</th>
                             <th>存放位置</th>
@@ -38,7 +40,6 @@
                                 <td>{{$storage->xinghao}}</td>
                                 <td>{{$storage->material_name}}</td>
                                 <td>{{$storage->category_name}}</td>
-                                <td>{{$storage->guige}}</td>
                                 <td>0</td>
                                 <td>{{$storage->storage_num}}</td>
                                 <td>{{$storage->store_place}}</td>

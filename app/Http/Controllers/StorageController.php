@@ -23,13 +23,20 @@ class StorageController extends Controller
      */
     public function index(Request $request)
     {
-        $storages = Storage::all();
+        $query = $request->input('q', '');
+        $query = trim($query);
+        if (strlen($query) > 0) {
+            $query = urldecode($query);
+            $storages = Storage::where('material_name', 'like', '%'.$query.'%')->get()->sortByDesc('updated_at')->take(100);
+        } else {
+            $storages = Storage::all()->sortByDesc('updated_at')->take(100);
+        }
         $categorys = CategoryLogic::getCategorys();
         foreach ($storages as $v) {
             $v->category_name = isset($categorys[$v->category_id]) ? $categorys[$v->category_id]->name : '';
         }
         $data = array('page_title' => '库存管理', 'page_description' => '',
-            'storages' => $storages);
+            'storages' => $storages, 'query' => $query);
         return view('storage.list', $data);
     }
 }

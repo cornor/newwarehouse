@@ -2,16 +2,24 @@
 
 @section('content')
     @include('admin.messages')
-    <div class="box-body">
-        <a href="{{route('materialin.create')}}" class="btn btn-lg btn-primary">入库添加</a>
+    <div class="row">
+        <div class="col-lg-6" style="float: right;">
+            {!! Form::open(['route' => 'materialin.index', 'method' => 'GET']) !!}
+            <div class="input-group">
+                <input type="text" class="form-control" value="{{$query}}" name="q" placeholder="输入材料...">
+                <span class="input-group-btn">
+                    {{--<button class="btn btn-primary" type="button">搜索</button>--}}
+                    {{ Form::bsButton('submit','btn btn-primary','搜索') }}
+                </span>
+            </div>
+            {!! Form::close() !!}
+        </div>
     </div>
+    <p/>
     <div class='row'>
         <div class='col-md-12'>
             <!-- Box -->
             <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">入库列表</h3>
-                </div>
                 <div class="box-body">
                     <table class="table table-bordered">
                         <tbody>

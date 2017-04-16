@@ -11,11 +11,10 @@
                 {!! Form::open(['route' => 'materialout.store']) !!}
                 <div class="box-body">
                     @include('errors.submitError')
-                    {{ Form::bsText('xinghao','型号') }}
-                    {{ Form::bsText('material_name','名称') }}
-                    {{ Form::bsText('guige','规格') }}
+                    {{ Form::bsText('xinghao','型号', $storage->xinghao) }}
+                    {{ Form::bsText('material_name','名称', $storage->material_name) }}
                     {{ Form::label('forcateid','类别&nbsp;&nbsp;&nbsp;') }}
-                    {{ Form::select('category_id',$categorys) }}
+                    {{ Form::select('category_id',$categorys, $storage->category_id) }}
                     <br/>
                     <br/>
                     {{ Form::bsText('out_num','数量') }}

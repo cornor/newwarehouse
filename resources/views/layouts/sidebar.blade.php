@@ -29,13 +29,31 @@
                     <li class="{{ active_class(if_route_pattern('user.*')) }}"><a href="{{route('user.index')}}">用户管理</a></li>
                 </ul>
             </li>
-            <li  class="treeview {{ active_class(if_route_pattern(['category.*','materialin.*','materialout.*','storage.*'])) }}">
-                <a href="#"><span>物料管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+            <li  class="treeview {{ active_class(if_route_pattern(['category.*'])) }}">
+                <a href="#"><span>分类管理</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li class="{{ active_class(if_route_pattern('category.*')) }}"><a href="{{route('category.index')}}">类别管理</a></li>
-                    <li class="{{ active_class(if_route_pattern('materialin.*')) }}"><a href="{{route('materialin.index')}}">物料入库</a></li>
-                    <li class="{{ active_class(if_route_pattern('materialout.*')) }}"><a href="{{route('materialout.index')}}">物料出库</a></li>
+                    <li class="{{ active_class(if_route_pattern('category.index')) }}"><a href="{{route('category.index')}}">类别列表</a></li>
+                    <li class="{{ active_class(if_route_pattern('category.create')) }}"><a href="{{route('category.create')}}">类别添加</a></li>
+                </ul>
+            </li>
+            <li  class="treeview {{ active_class(if_route_pattern(['storage.*'])) }}">
+                <a href="#"><span>物资状态</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
                     <li class="{{ active_class(if_route_pattern('storage.*')) }}"><a href="{{route('storage.index')}}">库存列表</a></li>
+                </ul>
+            </li>
+            <li  class="treeview {{ active_class(if_route_pattern(['materialin.*'])) }}">
+                <a href="#"><span>物资入库</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li class="{{ active_class(if_route_pattern('materialin.create')) }}"><a href="{{route('materialin.create')}}">物资入库</a></li>
+                    <li class="{{ active_class(if_route_pattern('materialin.index')) }}"><a href="{{route('materialin.index')}}">入库记录</a></li>
+                </ul>
+            </li>
+            <li  class="treeview {{ active_class(if_route_pattern(['materialout.*'])) }}">
+                <a href="#"><span>物资出库</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li class="{{ active_class(if_route_pattern(['materialout.create','materialout.storage'])) }}"><a href="{{route('materialout.storage')}}">物资出库</a></li>
+                    <li class="{{ active_class(if_route_pattern('materialout.index')) }}"><a href="{{route('materialout.index')}}">出库记录</a></li>
                 </ul>
             </li>
         </ul><!-- /.sidebar-menu -->

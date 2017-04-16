@@ -2,7 +2,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="javascript:;" class="logo"><b>华能</b>物资管理系统</a>
+    <a href="javascript:;" class="logo" ><b>华能</b>荆门热电有限责任公司物资管理系统</a>
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">

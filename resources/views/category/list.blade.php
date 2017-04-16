@@ -2,16 +2,10 @@
 
 @section('content')
     @include('admin.messages')
-    <div class="box-body">
-        <a href="{{route('category.create')}}" class="btn btn-lg btn-primary">新建类别</a>
-    </div>
     <div class='row'>
         <div class='col-md-12'>
             <!-- Box -->
             <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">类别列表</h3>
-                </div>
                 <div class="box-body">
                     <table class="table table-bordered">
                         <tbody>
