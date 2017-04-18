@@ -15,7 +15,7 @@
                 @endif
                 <div class="box-body">
                     @include('errors.submitError')
-                    {{ Form::bsText('name','用户名') }}
+                    {{ Form::bsText('name','姓名') }}
                     {{ Form::bsText('email','登陆用户名') }}
                     {{ Form::bsPassword('password','密码') }}
                     {{ Form::bsPassword('password_confirmation','确认密码') }}

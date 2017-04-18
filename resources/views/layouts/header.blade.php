@@ -2,7 +2,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="javascript:;" class="logo" ><b>华能</b>荆门热电有限责任公司物资管理系统</a>
+    <a href="javascript:;" class="logo" ><b></b></a>
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -10,6 +10,7 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
+        <a href="javascript:;" class="" ><b>华能</b>荆门热电有限责任公司物资管理系统</a>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">

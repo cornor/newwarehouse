@@ -2,35 +2,18 @@
 
 @section('content')
     @include('admin.messages')
-    <div class='row'>
-        <div class='col-md-12'>
-            <!-- Box -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">操作</h3>
-                </div>
-                <div class="box-body">
-                    <a href="{{route('user.create')}}" class="btn btn-lg btn-primary">新建用户</a>
-                </div>
-            </div><!-- /.box -->
-        </div><!-- /.col -->
-    </div><!-- /.row -->
-
 
     <div class='row'>
         <div class='col-md-12'>
             <!-- Box -->
             <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">用户列表</h3>
-                </div>
                 <div class="box-body">
                     <table class="table table-bordered">
                         <tbody>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>用户名</th>
-                            <th>电子邮件</th>
+                            <th>姓名</th>
+                            <th>登陆名</th>
                             <th>状态</th>
                             <th>创建时间</th>
                             <th>更新时间</th>
