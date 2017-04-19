@@ -55,6 +55,27 @@ class MaterialInController extends Controller
     }
 
     public function store(Request $request) {
+
+        $this->validate($request,
+            [
+                'xinghao' => 'required',
+                'material_name' => 'required',
+                'price' => 'required|numeric',
+                'in_num' => 'required|integer|min:1',
+                'check_user' => 'required|string',
+                'store_place' => 'required|string',
+            ],
+            [],
+            [
+                'xinghao' => '型号',
+                'material_name' => '材料名称',
+                'price' => '价格',
+                'in_num' => '数量',
+                'check_user' => '验收人',
+                'store_place' => '存放位置',
+            ]
+        );
+
         $data = $request->all();
         $data['in_time'] = date('Y-m-d H:i:s');
         MaterialIn::create($data);

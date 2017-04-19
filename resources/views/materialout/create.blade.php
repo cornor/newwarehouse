@@ -11,14 +11,26 @@
                 {!! Form::open(['route' => 'materialout.store']) !!}
                 <div class="box-body">
                     @include('errors.submitError')
-                    {{ Form::bsText('xinghao','型号', $storage->xinghao) }}
-                    {{ Form::bsText('material_name','名称', $storage->material_name) }}
+                    <div class="form-group">
+                        <label for="xinghao" class="control-label">型号 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="xinghao" name="xinghao" type="text" value="{{$storage->xinghao}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="material_name" class="control-label">名称 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="material_name" name="material_name" type="text" value="{{$storage->material_name}}">
+                    </div>
                     {{ Form::label('forcateid','类别&nbsp;&nbsp;&nbsp;') }}
                     {{ Form::select('category_id',$categorys, $storage->category_id) }}
                     <br/>
                     <br/>
-                    {{ Form::bsText('out_num','数量') }}
-                    {{ Form::bsText('check_user','出库验收人', $user->name) }}
+                    <div class="form-group">
+                        <label for="out_num" class="control-label">数量 &nbsp;&nbsp;(当前库存<span style="color: red;"> {{$storage->storage_num}} </span>)</label>
+                        <input class="form-control" id="out_num" name="out_num" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="check_user" class="control-label">出库验收人 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="check_user" name="check_user" type="text" value="{{$user->name}}">
+                    </div>
                     {{ Form::bsTextArea('remark','备注') }}
 
                 </div><!-- /.box-body -->

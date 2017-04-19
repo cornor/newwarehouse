@@ -63,6 +63,23 @@ class MaterialOutController extends Controller
     }
 
     public function store(Request $request) {
+
+        $this->validate($request,
+            [
+                'xinghao' => 'required',
+                'material_name' => 'required',
+                'out_num' => 'required|integer|min:1',
+                'check_user' => 'required|string',
+            ],
+            [],
+            [
+                'xinghao' => '型号',
+                'material_name' => '材料名称',
+                'out_num' => '数量',
+                'check_user' => '验收人',
+            ]
+        );
+
         $data = $request->all();
         $data['out_time'] = date('Y-m-d H:i:s');
 
@@ -74,7 +91,11 @@ class MaterialOutController extends Controller
         }
         MaterialOut::create($data);
         $storage->storage_num -= $request->input('out_num');
-        $storage->update();
+        if ($storage->storage_num <= 0) {
+            $storage->delete();
+        } else {
+            $storage->update();
+        }
 
         app('messageAlert')->store('保存成功', MessageAlert::SUCCESS, '出库记录增加成功。');
         return redirect()->route('materialout.index');

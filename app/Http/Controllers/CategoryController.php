@@ -54,16 +54,19 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, ['name' => 'required|string|min:2'], [],['name' => '类别名']);
         $pid = (int) $request->input('pid');
         $pname = '';
         if ($pid > 0) {
             $category = Category::find($pid);
-            $pname = $category->name;
+            if ($category) {
+                $pname = $category->name;
+            } else {
+                $pid = 0;
+            }
         }
         Category::add($pid, $pname, $request['name']);
-        //User::create($request->all());
         app('messageAlert')->store('保存成功', MessageAlert::SUCCESS, '新类别保存成功。');
-        //UserLog::info('store a user.[' . $request->name . ']');
         return redirect()->route('category.index');
     }
 

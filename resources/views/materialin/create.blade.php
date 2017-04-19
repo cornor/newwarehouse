@@ -11,16 +11,34 @@
                 {!! Form::open(['route' => 'materialin.store']) !!}
                 <div class="box-body">
                     @include('errors.submitError')
-                    {{ Form::bsText('xinghao','型号') }}
-                    {{ Form::bsText('material_name','名称') }}
+                    <div class="form-group">
+                        <label for="xinghao" class="control-label">型号 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="xinghao" name="xinghao" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="material_name" class="control-label">名称 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="material_name" name="material_name" type="text">
+                    </div>
                     {{ Form::label('forcateid','类别&nbsp;&nbsp;&nbsp;') }}
                     {{ Form::select('category_id',$categorys) }}
                     <br/>
                     <br/>
-                    {{ Form::bsText('price','价格') }}
-                    {{ Form::bsText('in_num','数量') }}
-                    {{ Form::bsText('check_user','入库验收人', $user->name) }}
-                    {{ Form::bsText('store_place','存放位置') }}
+                    <div class="form-group">
+                        <label for="price" class="control-label">价格 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="price" name="price" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="in_num" class="control-label">数量 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="in_num" name="in_num" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="check_user" class="control-label">入库验收人 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="check_user" name="check_user" type="text" value="{{$user->name}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="store_place" class="control-label">存放位置 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="store_place" name="store_place" type="text">
+                    </div>
                     {{ Form::bsTextArea('remark','备注') }}
 
                 </div><!-- /.box-body -->

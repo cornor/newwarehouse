@@ -12,7 +12,10 @@
                     {{ Form::select('pid',$parents) }}
                     <br/>
                     <br/>
-                    {{ Form::bsText('name','类别名称') }}
+                    <div class="form-group">
+                        <label for="name" class="control-label">类别名称 (<span style="color: red;"> * </span>)</label>
+                        <input class="form-control" id="name" name="name" type="text">
+                    </div>
 
                 </div><!-- /.box-body -->
                 <div class="box-footer">

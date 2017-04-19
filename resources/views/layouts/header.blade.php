@@ -10,7 +10,7 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
-        <a href="javascript:;" class="" ><b>华能</b>荆门热电有限责任公司物资管理系统</a>
+        <span style="font-size:28px;word-spacing:3px;letter-spacing:3px;">&nbsp;&nbsp;华能荆门热电有限责任公司物资管理系统</span>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
