@@ -26,9 +26,17 @@ class MaterialInController extends Controller
     {
         $query = $request->input('q', '');
         $query = trim($query);
-        if (strlen($query) > 0) {
+        $cateId = $request->input('cateId', 0);
+        if (strlen($query) > 0 || $cateId > 0) {
             $query = urldecode($query);
-            $indatas = MaterialIn::where('material_name', 'like', '%'.$query.'%')->take(100)->get()->sortByDesc('in_time');
+            $conditions = [];
+            if ($query) {
+                $conditions[] = ['material_name', 'like', '%' . $query . '%'];
+            }
+            if ($cateId > 0) {
+                $conditions[] = ['category_id', $cateId];
+            }
+            $indatas = MaterialIn::where($conditions)->take(100)->get()->sortByDesc('in_time');
         } else {
             $indatas = MaterialIn::all()->sortByDesc('in_time')->take(100);
         }
@@ -36,8 +44,13 @@ class MaterialInController extends Controller
         foreach ($indatas as $indata) {
             $indata->category_name = isset($categorys[$indata->category_id]) ? $categorys[$indata->category_id]->name : '';
         }
-        $data = array('page_title' => '入库记录', 'page_description' => '增加，搜索入库记录',
-            'indatas' => $indatas, 'query' => $query);
+        $data = array('page_title' => '入库记录',
+            'page_description' => '增加，搜索入库记录',
+            'indatas' => $indatas,
+            'query' => $query,
+            'cateId' => $cateId,
+            'categorys' => CategoryLogic::formatCanNoneCategorySelect()
+        );
         return view('materialin.list', $data);
     }
 
@@ -49,7 +62,8 @@ class MaterialInController extends Controller
             'page_title' => '添加入库',
             'page_description' => '增加入库记录',
             'categorys' => $categorys,
-            'user' => $user
+            'user' => $user,
+            'danweis' => $this->selectDanweis
         ];
         return view('materialin.create', $data);
     }
@@ -60,34 +74,45 @@ class MaterialInController extends Controller
             [
                 'xinghao' => 'required',
                 'material_name' => 'required',
-                'price' => 'required|numeric',
                 'in_num' => 'required|integer|min:1',
                 'check_user' => 'required|string',
-                'store_place' => 'required|string',
+                'danwei' => 'required|string',
             ],
             [],
             [
                 'xinghao' => '型号',
                 'material_name' => '材料名称',
-                'price' => '价格',
                 'in_num' => '数量',
                 'check_user' => '验收人',
-                'store_place' => '存放位置',
+                'danwei' => '单位',
             ]
         );
+
+        $inNum = $request->input('in_num');
+        $danwei = $request->input('danwei');
+        $danweiRate = $this->danweiRates[$danwei];
+        $storageAdd = $inNum * $danweiRate;
 
         $data = $request->all();
         $data['in_time'] = date('Y-m-d H:i:s');
         MaterialIn::create($data);
 
+        $xiandingNum = $request->input('xianding_num');
+        $xiandingData = intval($xiandingNum) * $danweiRate;
+
         $storage = Storage::where('xinghao', $request->input('xinghao'))->first();
         if ($storage) {
-            $storage->storage_num += $request->input('in_num');
+            $storage->storage_num += $storageAdd;
             $storage->store_place = $request->input('store_place');
             $storage->remark = $request->input('remark');
+            $storage->danwei = $danwei;
+            if ($xiandingNum !== '') {
+                $storage->xianding_num = (int) $xiandingData;
+            }
             $storage->update();
         } else {
-            $data['storage_num'] = $data['in_num'];
+            $data['storage_num'] = $storageAdd;
+            $data['xianding_num'] = (int) $xiandingData;
             Storage::create($data);
         }
 

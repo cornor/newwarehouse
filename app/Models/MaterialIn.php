@@ -10,6 +10,7 @@ class MaterialIn extends Model {
     public $incrementing = false;
 
     protected $fillable = [
-        'xinghao', 'material_name', 'store_place','in_num', 'in_time','category_id','check_user','price','remark'
+        'xinghao', 'material_name', 'store_place','in_num', 'in_time','category_id','check_user','price',
+        'remark','danwei'
     ];
 }

@@ -32,6 +32,16 @@ class CategoryLogic {
         return $pArr;
     }
 
+    public static function formatCanNoneCategorySelect() {
+        $categorys = Category::all();
+        $pArr = [0 => '请选择类别'];
+        foreach ($categorys as $category) {
+            $pArr[$category->id] = $category->name;
+        }
+
+        return $pArr;
+    }
+
     public static function getCategorys()
     {
         $categorys = Category::all();

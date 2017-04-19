@@ -27,9 +27,17 @@ class MaterialOutController extends Controller
 
         $query = $request->input('q', '');
         $query = trim($query);
-        if (strlen($query) > 0) {
+        $cateId = $request->input('cateId', 0);
+        if (strlen($query) > 0 || $cateId > 0) {
             $query = urldecode($query);
-            $outdatas = MaterialOut::where('material_name', 'like', '%'.$query.'%')->take(100)->get()->sortByDesc('out_time');
+            $conditions = [];
+            if ($query) {
+                $conditions[] = ['material_name', 'like', '%' . $query . '%'];
+            }
+            if ($cateId > 0) {
+                $conditions[] = ['category_id', $cateId];
+            }
+            $outdatas = MaterialOut::where($conditions)->take(100)->get()->sortByDesc('out_time');
         } else {
             $outdatas = MaterialOut::all()->sortByDesc('out_time')->take(100);
         }
@@ -38,8 +46,12 @@ class MaterialOutController extends Controller
         foreach ($outdatas as $indata) {
             $indata->category_name = isset($categorys[$indata->category_id]) ? $categorys[$indata->category_id]->name : '';
         }
-        $data = array('page_title' => '出库记录', 'page_description' => '增加，搜索出库记录',
-            'outdatas' => $outdatas, 'query' => $query);
+        $data = array('page_title' => '出库记录',
+            'page_description' => '增加，搜索出库记录',
+            'outdatas' => $outdatas,
+            'query' => $query,
+            'cateId' => $cateId,
+            'categorys' => CategoryLogic::formatCanNoneCategorySelect());
         return view('materialout.list', $data);
     }
 
@@ -50,6 +62,8 @@ class MaterialOutController extends Controller
             app('messageAlert')->store('出库失败', MessageAlert::DANGER, '未找到对应的物品。');
             return redirect()->route('materialout.storage');
         }
+        $storage->storage_num = $this->transferDanwei($storage->storage_num, $storage->danwei);
+
         $categorys = CategoryLogic::formatCategorySelect();
         $user = $request->user();
         $data = [
@@ -57,7 +71,8 @@ class MaterialOutController extends Controller
             'page_description' => '增加出库记录',
             'categorys' => $categorys,
             'user' => $user,
-            'storage' => $storage
+            'storage' => $storage,
+            'danweis' => $this->selectDanweis
         ];
         return view('materialout.create', $data);
     }
@@ -83,14 +98,20 @@ class MaterialOutController extends Controller
         $data = $request->all();
         $data['out_time'] = date('Y-m-d H:i:s');
 
+        $outNum = $request->input('out_num');
+        $danwei = $request->input('danwei');
+        $danweiRate = $this->danweiRates[$danwei];
+        $storageReduce = $outNum * $danweiRate;
+
         $storage = Storage::where('xinghao', $request->input('xinghao'))->first();
 
-        if (!$storage || $storage->storage_num < $request->input('out_num')) {
+        if (!$storage || $storage->storage_num < $storageReduce) {
             app('messageAlert')->store('出库失败', MessageAlert::DANGER, '库存数量不足。');
             return redirect()->route('materialout.storage');
         }
         MaterialOut::create($data);
-        $storage->storage_num -= $request->input('out_num');
+
+        $storage->storage_num -= $storageReduce;
         if ($storage->storage_num <= 0) {
             $storage->delete();
         } else {
@@ -105,9 +126,17 @@ class MaterialOutController extends Controller
     {
         $query = $request->input('q', '');
         $query = trim($query);
-        if (strlen($query) > 0) {
+        $cateId = $request->input('cateId', 0);
+        if (strlen($query) > 0 || $cateId > 0) {
             $query = urldecode($query);
-            $storages = Storage::where('material_name', 'like', '%'.$query.'%')->get()->sortByDesc('updated_at')->take(100);
+            $conditions = [];
+            if ($query) {
+                $conditions[] = ['material_name', 'like', '%' . $query . '%'];
+            }
+            if ($cateId > 0) {
+                $conditions[] = ['category_id', $cateId];
+            }
+            $storages = Storage::where($conditions)->get()->sortByDesc('updated_at')->take(100);
         } else {
             $storages = Storage::all()->sortByDesc('updated_at')->take(100);
         }
@@ -115,8 +144,18 @@ class MaterialOutController extends Controller
         foreach ($storages as $v) {
             $v->category_name = isset($categorys[$v->category_id]) ? $categorys[$v->category_id]->name : '';
         }
-        $data = array('page_title' => '物资出库', 'page_description' => '',
-            'storages' => $storages, 'query' => $query);
+        foreach ($storages as $storage) {
+            $storage->baojing = $storage->xianding_num > 0 && $storage->storage_num < $storage->xianding_num ? 1 : 0;
+            $storage->storage_num = $this->transferDanwei($storage->storage_num, $storage->danwei);
+            $storage->xianding_num = $this->transferDanwei($storage->xianding_num, $storage->danwei);
+        }
+        $data = array('page_title' => '物资出库',
+            'page_description' => '',
+            'storages' => $storages,
+            'query' => $query,
+            'cateId' => $cateId,
+            'categorys' => CategoryLogic::formatCanNoneCategorySelect()
+        );
         return view('materialout.storage', $data);
     }
 }

@@ -6,14 +6,18 @@
         <div class="col-lg-6" style="float: right;">
             {!! Form::open(['route' => 'materialout.index', 'method' => 'GET']) !!}
             <div class="input-group">
-                <input type="text" class="form-control" value="{{$query}}" name="q" placeholder="输入材料...">
+                <input type="text" class="form-control" value="{{$query}}" name="q" placeholder="请输入物资名称或类别...">
                 <span class="input-group-btn">
                     {{--<button class="btn btn-primary" type="button">搜索</button>--}}
                     {{ Form::bsButton('submit','btn btn-primary','搜索') }}
                 </span>
             </div>
-            {!! Form::close() !!}
+
         </div>
+        <div class="col-lg-6" style="float: right;">
+            {{ Form::select('cateId',$categorys, $cateId) }}
+        </div>
+        {!! Form::close() !!}
     </div>
     <p/>
     <div class='row'>
@@ -34,13 +38,12 @@
                             <th>备注</th>
                         </tr>
                         @foreach($outdatas as $outdata)
-                            <tr>
+                            <tr >
                                 <td>{{$outdata->xinghao}}</td>
                                 <td>{{$outdata->material_name}}</td>
                                 <td>{{$outdata->category_name}}</td>
                                 <td>{{$outdata->out_num}}</td>
-                                <td>个</td>
-                                <td>{{$outdata->store_place}}</td>
+                                <td>{{$outdata->danwei}}</td>
                                 <td>{{$outdata->out_time}}</td>
                                 <td>{{$outdata->check_user}}</td>
                                 <td>{{$outdata->remark}}</td>

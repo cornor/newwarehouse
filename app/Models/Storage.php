@@ -8,6 +8,6 @@ class Storage extends Model {
     protected $table = 'storage';
 
     protected $fillable = [
-        'xinghao', 'material_name', 'store_place','storage_num','category_id','remark'
+        'xinghao', 'material_name', 'store_place','storage_num','category_id','remark','danwei','xianding_num'
     ];
 }
