@@ -95,6 +95,7 @@ class MaterialInController extends Controller
 
         $data = $request->all();
         $data['in_time'] = date('Y-m-d H:i:s');
+        $data['price'] = (int) $request->input('price', 0);
         MaterialIn::create($data);
 
         $xiandingNum = $request->input('xianding_num');

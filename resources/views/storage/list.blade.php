@@ -2,23 +2,24 @@
 
 @section('content')
     @include('admin.messages')
+    {!! Form::open(['route' => 'storage.index', 'method' => 'GET']) !!}
     <div class="row">
-        {!! Form::open(['route' => 'storage.index', 'method' => 'GET']) !!}
         <div class="col-lg-6" style="float: right;">
             <div class="input-group">
-
-                <input type="text" class="form-control" value="{{$query}}" name="q" placeholder="请输入物资名称或类别...">
+                <input type="text" class="form-control" value="{{$query}}" name="q" placeholder="请输入物资名称...">
                 <span class="input-group-btn">
                     {{--<button class="btn btn-primary" type="button">搜索</button>--}}
                     {{ Form::bsButton('submit','btn btn-primary','搜索') }}
                 </span>
             </div>
         </div>
-        <div class="col-lg-6" style="float: right;">
-            {{ Form::select('cateId',$categorys, $cateId) }}
-        </div>
-        {!! Form::close() !!}
     </div>
+    <ul class="list-inline">
+        <li style="font-weight: bold;">其他搜索条件:</li>
+        <li>{{ Form::select('cateId',$categorys, $cateId) }}</li>
+    </ul>
+
+    {!! Form::close() !!}
     <p/>
     <div class='row'>
         <div class='col-md-12'>
