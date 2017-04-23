@@ -36,7 +36,9 @@
                         {{ Form::select('danwei',$danweis) }}
                     </div>
                     <div class="form-group">
-                        <label for="in_num" class="control-label">报警数量</label>
+                        <label for="in_num" class="control-label">报警数量
+                            <span id="xianding" style="display: none;">(当前设置值<span style="color: red;" id="lastnum"></span>)</span>
+                        </label>
                         <input class="form-control" id="xianding_num" name="xianding_num" type="text">
                     </div>
                     <div class="form-group">
@@ -58,4 +60,34 @@
             </div><!-- /.box -->
         </div><!-- /.col -->
     </div><!-- /.row -->
+    @push('runningScripts')
+    <script src="{{ asset("/js/jquery.form.min.js")}}"></script>
+    <script>
+        $(function () {
+
+
+            $('#xinghao').change(function(){
+                var xinghao = $('#xinghao').val();
+                getXinghaoStorage(xinghao);
+            })
+
+            function getXinghaoStorage(xinghao) {
+                $.ajax({
+                    url: "/materialin/xhsearch?xinghao="+xinghao,
+                    dataType:"json",
+                    method:"GET",
+                    success:function (data) {
+                        if (data.es == 1) {
+                            $('#xianding').show();
+                            $('#lastnum').html(data.xianding_num + data.danwei);
+
+                        } else {
+                            $('#xianding').hide();
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+    @endpush
 @endsection

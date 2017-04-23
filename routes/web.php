@@ -50,6 +50,7 @@ Route::resource('category','CategoryController');
 Route::get('materialin/index','MaterialInController@index')->name('materialin.index');
 Route::get('materialin/create','MaterialInController@create')->name('materialin.create');
 Route::post('materialin/store','MaterialInController@store')->name('materialin.store');
+Route::get('materialin/xhsearch','MaterialInController@xhsearch')->name('materialin.xhsearch');
 
 Route::get('materialout/index','MaterialOutController@index')->name('materialout.index');
 Route::get('materialout/create/{id}','MaterialOutController@create')->name('materialout.create');

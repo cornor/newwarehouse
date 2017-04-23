@@ -40,7 +40,7 @@
                             <th>入库验收人</th>
                             <th>备注</th>
                         </tr>
-                        @foreach($indatas as $indata)
+                        @foreach(array_reverse($indatas) as $indata)
                             <tr>
                                 <td>{{$indata->xinghao}}</td>
                                 <td>{{$indata->material_name}}</td>
@@ -56,11 +56,12 @@
                         @endforeach
                         </tbody>
                     </table>
-
                 </div><!-- /.box-body -->
                 <div class="box-footer">
+                    {{$pageList->render()}}
                 </div><!-- /.box-footer-->
             </div><!-- /.box -->
         </div><!-- /.col -->
     </div><!-- /.row -->
+
 @endsection

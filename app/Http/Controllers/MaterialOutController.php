@@ -37,17 +37,25 @@ class MaterialOutController extends Controller
             if ($cateId > 0) {
                 $conditions[] = ['category_id', $cateId];
             }
-            $outdatas = MaterialOut::where($conditions)->take(100)->get()->sortByDesc('out_time');
+            $count = MaterialOut::where($conditions)->count();
+            $this->setDefaultPage($request, $count);
+            $pageList = MaterialOut::where($conditions)->paginate(parent::PAGE_NUM);
         } else {
-            $outdatas = MaterialOut::all()->sortByDesc('out_time')->take(100);
+            $count = MaterialOut::count();
+            $this->setDefaultPage($request, $count);
+            $pageList = MaterialOut::paginate(parent::PAGE_NUM);
         }
 
         $categorys = CategoryLogic::getCategorys();
-        foreach ($outdatas as $indata) {
-            $indata->category_name = isset($categorys[$indata->category_id]) ? $categorys[$indata->category_id]->name : '';
+        $outdatas = [];
+        foreach ($pageList as $outdata) {
+            $outdata->category_name = isset($categorys[$outdata->category_id]) ? $categorys[$outdata->category_id]->name : '';
+            $outdatas[] = $outdata;
         }
+        $pageList->appends(['q' => $query, 'cateId' => $cateId])->links();
         $data = array('page_title' => '出库记录',
             'page_description' => '增加，搜索出库记录',
+            'pageList' => $pageList,
             'outdatas' => $outdatas,
             'query' => $query,
             'cateId' => $cateId,
@@ -136,21 +144,29 @@ class MaterialOutController extends Controller
             if ($cateId > 0) {
                 $conditions[] = ['category_id', $cateId];
             }
-            $storages = Storage::where($conditions)->get()->sortByDesc('updated_at')->take(100);
+            $count = Storage::where($conditions)->count();
+            $this->setDefaultPage($request, $count);
+            $pageList = Storage::where($conditions)->paginate(parent::PAGE_NUM);
         } else {
-            $storages = Storage::all()->sortByDesc('updated_at')->take(100);
+            $count = Storage::count();
+            $this->setDefaultPage($request, $count);
+            $pageList = Storage::paginate(parent::PAGE_NUM);
         }
         $categorys = CategoryLogic::getCategorys();
-        foreach ($storages as $v) {
+        $storages = [];
+        foreach ($pageList as $v) {
             $v->category_name = isset($categorys[$v->category_id]) ? $categorys[$v->category_id]->name : '';
+            $storages[] = $v;
         }
         foreach ($storages as $storage) {
             $storage->baojing = $storage->xianding_num > 0 && $storage->storage_num < $storage->xianding_num ? 1 : 0;
             $storage->storage_num = $this->transferDanwei($storage->storage_num, $storage->danwei);
             $storage->xianding_num = $this->transferDanwei($storage->xianding_num, $storage->danwei);
         }
+        $pageList->appends(['q' => $query, 'cateId' => $cateId])->links();
         $data = array('page_title' => '物资出库',
             'page_description' => '',
+            'pageList' => $pageList,
             'storages' => $storages,
             'query' => $query,
             'cateId' => $cateId,

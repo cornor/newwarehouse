@@ -39,7 +39,7 @@
                             <th>出库验收人</th>
                             <th>备注</th>
                         </tr>
-                        @foreach($outdatas as $outdata)
+                        @foreach(array_reverse($outdatas) as $outdata)
                             <tr >
                                 <td>{{$outdata->xinghao}}</td>
                                 <td>{{$outdata->material_name}}</td>
@@ -56,6 +56,7 @@
 
                 </div><!-- /.box-body -->
                 <div class="box-footer">
+                    {{$pageList->render()}}
                 </div><!-- /.box-footer-->
             </div><!-- /.box -->
         </div><!-- /.col -->

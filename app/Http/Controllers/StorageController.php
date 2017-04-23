@@ -35,27 +35,33 @@ class StorageController extends Controller
             if ($cateId > 0) {
                 $conditions[] = ['category_id', $cateId];
             }
-            $storages = Storage::where($conditions)->get()->sortByDesc('updated_at')->take(100);
+            $count = Storage::where($conditions)->count();
+            $this->setDefaultPage($request, $count);
+            $pageList = Storage::where($conditions)->paginate(parent::PAGE_NUM);
         } else {
-            $storages = Storage::all()->sortByDesc('updated_at')->take(100);
+            $count = Storage::count();
+            $this->setDefaultPage($request, $count);
+            $pageList = Storage::paginate(parent::PAGE_NUM);
         }
         $categorys = CategoryLogic::getCategorys();
-        foreach ($storages as $v) {
+        $storages = [];
+        foreach ($pageList as $v) {
             $v->category_name = isset($categorys[$v->category_id]) ? $categorys[$v->category_id]->name : '';
+            $storages[] = $v;
         }
-
         foreach ($storages as $storage) {
             $storage->baojing = $storage->xianding_num > 0 && $storage->storage_num < $storage->xianding_num ? 1 : 0;
             $storage->storage_num = $this->transferDanwei($storage->storage_num, $storage->danwei);
             $storage->xianding_num = $this->transferDanwei($storage->xianding_num, $storage->danwei);
         }
-
+        $pageList->appends(['q' => $query, 'cateId' => $cateId])->links();
         $data = array('page_title' => '库存管理',
             'page_description' => '',
+            'pageList' => $pageList,
             'storages' => $storages,
             'query' => $query,
-            'categorys' => CategoryLogic::formatCanNoneCategorySelect(),
-            'cateId' => $cateId
+            'cateId' => $cateId,
+            'categorys' => CategoryLogic::formatCanNoneCategorySelect()
         );
         return view('storage.list', $data);
     }

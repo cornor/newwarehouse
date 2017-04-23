@@ -36,17 +36,26 @@ class MaterialInController extends Controller
             if ($cateId > 0) {
                 $conditions[] = ['category_id', $cateId];
             }
-            $indatas = MaterialIn::where($conditions)->take(100)->get()->sortByDesc('in_time');
+            $count = MaterialIn::where($conditions)->count();
+            $this->setDefaultPage($request, $count);
+            $pageList = MaterialIn::where($conditions)->paginate(parent::PAGE_NUM);
         } else {
-            $indatas = MaterialIn::all()->sortByDesc('in_time')->take(100);
+            $count = MaterialIn::count();
+            $this->setDefaultPage($request, $count);
+            $pageList = MaterialIn::paginate(parent::PAGE_NUM);
         }
         $categorys = CategoryLogic::getCategorys();
-        foreach ($indatas as $indata) {
+
+        $indatas = [];
+        foreach ($pageList as $indata) {
             $indata->category_name = isset($categorys[$indata->category_id]) ? $categorys[$indata->category_id]->name : '';
+            $indatas[] = $indata;
         }
+        $pageList->appends(['q' => $query, 'cateId' => $cateId])->links();
         $data = array('page_title' => '入库记录',
             'page_description' => '增加，搜索入库记录',
             'indatas' => $indatas,
+            'pageList' => $pageList,
             'query' => $query,
             'cateId' => $cateId,
             'categorys' => CategoryLogic::formatCanNoneCategorySelect()
@@ -119,5 +128,20 @@ class MaterialInController extends Controller
 
         app('messageAlert')->store('保存成功', MessageAlert::SUCCESS, '入库记录增加成功。');
         return redirect()->route('materialin.index');
+    }
+
+    public function xhsearch(Request $request)
+    {
+        $xinghao = $request->input('xinghao', '');
+        $data['es'] = 0;
+        if ($xinghao) {
+            $storage = Storage::where('xinghao', $request->input('xinghao'))->first();
+            if ($storage) {
+                $data['es'] = 1;
+                $data['xianding_num'] = $this->transferDanwei($storage->xianding_num, $storage->danwei);
+                $data['danwei'] = $storage->danwei;
+            }
+        }
+        return json_encode($data);
     }
 }

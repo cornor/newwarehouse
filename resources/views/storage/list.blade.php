@@ -41,7 +41,7 @@
                             <th>存放位置</th>
                             <th>备注</th>
                         </tr>
-                        @foreach($storages as $storage)
+                        @foreach(array_reverse($storages) as $storage)
                             <tr @if($storage->baojing > 0) style="color: red;" @endif>
                                 <td>{{$storage->xinghao}}</td>
                                 <td>{{$storage->material_name}}</td>
@@ -58,6 +58,7 @@
 
                 </div><!-- /.box-body -->
                 <div class="box-footer">
+                    {{$pageList->render()}}
                 </div><!-- /.box-footer-->
             </div><!-- /.box -->
         </div><!-- /.col -->
